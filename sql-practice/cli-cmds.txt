@@ -1,0 +1,3 @@
+CREATE INDEX
+  idx_cat_toys_toy_id
+  ON cat_toys(toy_id);

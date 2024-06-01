@@ -59,19 +59,26 @@ EXPLAIN QUERY PLAN SELECT * FROM cats JOIN cat_toys ON (cat_id = cats.id)
 
 -- Create index:
 
-    -- Your code here
+CREATE INDEX
+  idx_cat_toys_toy_id
+  ON cat_toys(toy_id);
 
 -- Analyze Query:
-    -- Your code here
+
+EXPLAIN QUERY PLAN SELECT * FROM cats JOIN cat_toys ON (cat_id = cats.id)
+    WHERE toy_id = 5;
 
 -- Paste your results below (as a comment):
 
+-- QUERY PLAN
+-- |--SEARCH cat_toys USING INDEX idx_cat_toys_toy_id (toy_id=?)
+-- `--SEARCH cats USING INTEGER PRIMARY KEY (rowid=?)
 
 -- Analyze Results:
 
     -- Is the new index being applied in this query?
 
-
+    -- Yes
 
 
 ----------
@@ -79,17 +86,25 @@ EXPLAIN QUERY PLAN SELECT * FROM cats JOIN cat_toys ON (cat_id = cats.id)
 ----------
 -- Query (to be used in the sqlite CLI):
 
-    -- Your code here
+    -- .timer on
 
 -- Paste your results below (as a comment):
 
+-- ┌──────┬─────────┬──────────┬────────────┬───────┬────────┬────────┐
+-- │  id  │  name   │  color   │   breed    │  id   │ cat_id │ toy_id │
+-- ├──────┼─────────┼──────────┼────────────┼───────┼────────┼────────┤
+-- │ 4002 │ Rachele │ Maroon   │ Foldex Cat │ 4509  │ 4002   │ 5      │
+-- │ 31   │ Rodger  │ Lavender │ Oregon Rex │ 10008 │ 31     │ 5      │
+-- │ 77   │ Jamal   │ Orange   │ Sam Sawet  │ 10051 │ 77     │ 5      │
+-- └──────┴─────────┴──────────┴────────────┴───────┴────────┴────────┘
+-- Run Time: real 0.000 user 0.000177 sys 0.000000
 
 -- Analyze Results:
     -- Are you still getting the correct query results?
-
+    -- Yes
 
     -- Did the execution time improve (decrease)?
-
+    -- Improved
 
     -- Do you see any other opportunities for making this query more efficient?
 
